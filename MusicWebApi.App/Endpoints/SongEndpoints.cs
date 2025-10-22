@@ -6,7 +6,7 @@ namespace MusicWebApi.App.Endpoints
     public static class SongEndpoints
     {
 
-        private static readonly Song[] _songs = [new Song() { Title = "Hello", ArtistName = "Adele" }, new Song() { Title = "Goosebumps", ArtistName = "Travis Scott" }, new Song() { Title = "Waka Waka", ArtistName = "Shakira" }];
+        private static readonly Song[] _songs = [new Song() { Title = "Hello", AlbumName = "25" }, new Song() { Title = "Goosebumps", AlbumName = "Birds in the Trap Sing McKnight" }, new Song() { Title = "Waka Waka", AlbumName = "Sale el sol" }];
 
         public static void MapSongEndpoints(this IEndpointRouteBuilder app)
         {

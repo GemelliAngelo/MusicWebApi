@@ -20,6 +20,7 @@ namespace MusicWebApi.App
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddControllers();
             builder.Services.AddAuthorization();
 
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -38,6 +39,8 @@ namespace MusicWebApi.App
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
+
+            app.MapControllers();
 
             app.MapSongEndpoints();
 
