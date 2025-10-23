@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MusicWebApi.App.Models;
+using MusicWebApi.App.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -9,39 +10,48 @@ namespace MusicWebApi.App.Controllers
     [ApiController]
     public class ArtistsController : ControllerBase
     {
-        readonly Artist[] _artists = [new Artist() { Name = "Adele", Age = 37}, new Artist() { Name = "Travis Scott", Age = 34}, new Artist() { Name = "Shakira", Age = 48}];
+        private readonly CommonService _commonService;
+
+        public ArtistsController(CommonService commonService)
+        {
+            _commonService = commonService;
+        }
 
         // GET: api/<AlbumsController>
         [HttpGet]
-        public Artist[] Get()
+        public List<Artist> Get()
         {
-            return _artists;
+            return _commonService.GetArtists();
         }
 
         // GET api/<AlbumsController>/5
         [HttpGet("{index:int}")]
-        public Artist Get(int index)
+        public List<Artist> Get(int index)
         {
-            return _artists[index];
+            return _commonService.GetArtists(index);
         }
 
         // POST api/<AlbumsController>
         [HttpPost]
         public object Post([FromBody] Artist payload)
         {
+            _commonService.AddArtists(payload);
             return new { success = true, payload };
         }
 
         // PUT api/<AlbumsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("{index}")]
+        public Artist Put(int index, [FromBody] Artist payload)
         {
+            _commonService.UpdateArtist(index, payload);
+            return _commonService.Artists[index];
         }
 
         // DELETE api/<AlbumsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{index}")]
+        public void Delete(int index)
         {
+            _commonService.DeleteArtist(index);
         }
     }
 }

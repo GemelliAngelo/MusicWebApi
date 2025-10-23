@@ -1,6 +1,6 @@
 
 using MusicWebApi.App.Endpoints;
-using MusicWebApi.App.Models;
+using MusicWebApi.App.Services;
 
 namespace MusicWebApi.App
 {
@@ -18,6 +18,8 @@ namespace MusicWebApi.App
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddSingleton<CommonService>();
 
             // Add services to the container.
             builder.Services.AddControllers();
