@@ -6,9 +6,6 @@ namespace MusicWebApi.App.Endpoints
 {
     public static class SongEndpoints
     {
-
-        private static readonly CommonService _commonService = new CommonService();
-
         public static void MapSongEndpoints(this IEndpointRouteBuilder app)
         {
             var endpoints = app.MapGroup("api/songs");
@@ -17,14 +14,14 @@ namespace MusicWebApi.App.Endpoints
             endpoints.MapGet("/search", Search);
         }
 
-        static List<Song> Get()
+        static List<Song> Get(CommonService commonService)
         {
-            return _commonService.GetSongs();
+            return commonService.GetSongs();
         }
 
-        static Results<Ok<Song>, NotFound, ProblemHttpResult> Search(string title)
+        static Results<Ok<Song>, NotFound, ProblemHttpResult> Search(CommonService commonService, string title)
         {
-            var result = _commonService.GetSongs().First();
+            var result = commonService.GetSongs(title).First();
             return result == null ? TypedResults.NotFound() : TypedResults.Ok(result);
         }
     }

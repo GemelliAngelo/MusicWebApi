@@ -19,41 +19,38 @@ namespace MusicWebApi.App.Controllers
             _commonService = commonService;
         }
 
-        // GET: api/<AlbumsController>
-        [HttpGet]
-        public List<Artist> Get()
+        
+        // GET api/<ArtistsController>/Artist
+        [HttpGet()]
+        public List<Artist> Get([FromQuery] string? name)
         {
-            return _commonService.GetArtists();
-        }
+            if (string.IsNullOrEmpty(name))
+                return _commonService.GetArtists();
 
-        // GET api/<AlbumsController>/5
-        [HttpGet("{name:alpha}")]
-        public List<Artist> Get(string name)
-        {
             return _commonService.GetArtists(name);
         }
 
-        // POST api/<AlbumsController>
+        // POST api/<ArtistsController>
         [HttpPost]
-        public object Post([FromBody] Artist payload)
+        public void Post([FromBody] Artist payload)
         {
+            _logger.LogInformation($"{payload.Name} added");
             _commonService.AddArtists(payload);
-            return new { success = true, payload };
         }
 
-        // PUT api/<AlbumsController>/5
-        [HttpPut("{index}")]
-        public Artist Put(int index, [FromBody] Artist payload)
+        // PUT api/<ArtistsController>/My Artist
+        [HttpPut()]
+        public void Put([FromQuery]string name, [FromBody] Artist payload)
         {
-            _commonService.UpdateArtist(index, payload);
-            return _commonService.Artists[index];
+            _logger.LogInformation($"{payload.Name} updated");
+            _commonService.UpdateArtist(name, payload);
         }
 
-        // DELETE api/<AlbumsController>/5
-        [HttpDelete("{index}")]
-        public void Delete(int index)
+        // DELETE api/<ArtistsController>/My Artist
+        [HttpDelete()]
+        public void Delete([FromQuery] string name)
         {
-            _commonService.DeleteArtist(index);
+            _commonService.DeleteArtist(name);
         }
     }
 }

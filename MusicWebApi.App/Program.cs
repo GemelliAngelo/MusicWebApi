@@ -21,6 +21,7 @@ namespace MusicWebApi.App
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Host.UseSerilog((context, config) => config.ReadFrom.Configuration(context.Configuration));
+
             builder.Services.AddSingleton<CommonService>();
 
             // Add services to the container.

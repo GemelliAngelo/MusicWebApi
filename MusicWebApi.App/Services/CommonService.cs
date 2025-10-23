@@ -1,4 +1,6 @@
-﻿using MusicWebApi.App.Models;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using MusicWebApi.App.Models;
+using System.Xml.Linq;
 
 namespace MusicWebApi.App.Services
 {
@@ -27,14 +29,20 @@ namespace MusicWebApi.App.Services
             Artists.Add(artist);
         }
 
-        public void UpdateArtist(int index, Artist artist)
+        public void UpdateArtist(string name, Artist newArtist)
         {
-            Artists[index] = artist;
+            var artist = Artists.FirstOrDefault(a => a.Name == name);
+            if (artist != null)
+            {
+                artist.Name = newArtist.Name;
+                artist.Age = newArtist.Age;
+            }
         }
 
-        public void DeleteArtist(int index)
+        public void DeleteArtist(string name)
         {
-            Artists.RemoveAt(index);
+            var artist = Artists.FirstOrDefault(a => a.Name == name);
+            if (artist != null) Artists.Remove(artist);
         }
     }
 }
