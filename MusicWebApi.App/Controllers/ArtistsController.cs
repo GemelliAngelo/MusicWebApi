@@ -10,10 +10,12 @@ namespace MusicWebApi.App.Controllers
     [ApiController]
     public class ArtistsController : ControllerBase
     {
+        private readonly ILogger<ArtistsController> _logger;
         private readonly CommonService _commonService;
 
-        public ArtistsController(CommonService commonService)
+        public ArtistsController(ILogger<ArtistsController> logger, CommonService commonService)
         {
+            _logger = logger;
             _commonService = commonService;
         }
 
@@ -25,10 +27,10 @@ namespace MusicWebApi.App.Controllers
         }
 
         // GET api/<AlbumsController>/5
-        [HttpGet("{index:int}")]
-        public List<Artist> Get(int index)
+        [HttpGet("{name:alpha}")]
+        public List<Artist> Get(string name)
         {
-            return _commonService.GetArtists(index);
+            return _commonService.GetArtists(name);
         }
 
         // POST api/<AlbumsController>

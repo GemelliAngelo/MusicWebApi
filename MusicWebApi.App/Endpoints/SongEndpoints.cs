@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using MusicWebApi.App.Models;
+using MusicWebApi.App.Services;
 
 namespace MusicWebApi.App.Endpoints
 {
     public static class SongEndpoints
     {
 
-        private static readonly Song[] _songs = [new Song() { Title = "Hello", AlbumName = "25" }, new Song() { Title = "Goosebumps", AlbumName = "Birds in the Trap Sing McKnight" }, new Song() { Title = "Waka Waka", AlbumName = "Sale el sol" }];
+        private static readonly CommonService _commonService = new CommonService();
 
         public static void MapSongEndpoints(this IEndpointRouteBuilder app)
         {
@@ -16,14 +17,14 @@ namespace MusicWebApi.App.Endpoints
             endpoints.MapGet("/search", Search);
         }
 
-        static Song[] Get()
+        static List<Song> Get()
         {
-            return _songs;
+            return _commonService.GetSongs();
         }
 
-        static Results<Ok<Song>, NotFound, ProblemHttpResult> Search(string name)
+        static Results<Ok<Song>, NotFound, ProblemHttpResult> Search(string title)
         {
-            var result = _songs.FirstOrDefault(s => s.Title == name);
+            var result = _commonService.GetSongs().First();
             return result == null ? TypedResults.NotFound() : TypedResults.Ok(result);
         }
     }
